@@ -640,14 +640,14 @@
   (save-excursion
     (folder-jump-no-select sym)
     (beginning-of-line 1)
-    (forward-char 1)
-    (let (buffer-read-only)
-      (insert-before-markers
-       (folder-add-properties
-        (concat (folder-info sym)
-                (folder-child-branch (folder-parent sym)))
-        (text-properties-at (point))))
-      (delete-region (point) (folder-mark-position sym)))))
+    (let ((buffer-read-only)
+          (info (concat (folder-info sym)
+                (folder-child-branch (folder-parent sym))))
+          (props (text-properties-at (point))))
+      (forward-char 1)
+      (insert-before-markers (folder-add-properties info props))
+      (delete-region (point)
+                     (folder-mark-position sym)))))
 
 (defun folder-update-all ()
   (interactive)
